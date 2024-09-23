@@ -19,6 +19,14 @@ export const goods = [
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
 
+  const handleGoodClick = good => {
+    setSelectedGood(prevSelectedGood => {
+      const updateSelectedGood = prevSelectedGood === good ? '' : good;
+
+      return updateSelectedGood;
+    });
+  };
+
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
@@ -47,25 +55,16 @@ export const App = () => {
                 })}
               >
                 <td>
-                  {isSelected ? (
-                    <button
-                      data-cy="RemoveButton"
-                      type="button"
-                      className="button is-info"
-                      onClick={() => setSelectedGood('')}
-                    >
-                      -
-                    </button>
-                  ) : (
-                    <button
-                      data-cy="AddButton"
-                      type="button"
-                      className="button"
-                      onClick={() => setSelectedGood(good)}
-                    >
-                      +
-                    </button>
-                  )}
+                  <button
+                    data-cy={isSelected ? 'RemoveButton' : 'AddButton'}
+                    type="button"
+                    className={classNames('button', {
+                      'is-info': isSelected,
+                    })}
+                    onClick={() => handleGoodClick(good)}
+                  >
+                    {isSelected ? '-' : '+'}
+                  </button>
                 </td>
 
                 <td data-cy="GoodTitle" className="is-vcentered">
